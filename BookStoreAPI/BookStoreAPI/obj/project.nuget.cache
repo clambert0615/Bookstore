@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9MOjCdOACku0zbFZsnOIE/pTWdmw0JTVQyA11saOR9TVmNCZlWqGP9GeN9AUI/kBcn3/4bbKUj/tklzdFYSaIw==",
+  "dgSpecHash": "PgGQqKVGmGfYbt/NYGsRzvcdylzb8rhW5iIL+qbAKjkrrtIuMjA48ra7xP22ZDBLHtPz2M76O8AStoTo23pZGg==",
   "success": true,
-  "projectFilePath": "C:\\Grandcircus\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj",
+  "projectFilePath": "C:\\Grandcircus\\Bookstore\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cbele\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\cbele\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

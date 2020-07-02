@@ -1,0 +1,15 @@
+﻿
+<h1>Welcome to the CML Bookstore Management System</h1><br /><br />
+<h3> Please select an option from the following menu:</h3><br />
+<ol>
+    <li>List out current inventory</li>
+    <li>Add a new book</li>
+    <li>Update a book</li>
+    <li>Delete a book</li>
+</ol>
+<form action="/Admin/GetOption" method="post">
+    <label for="option">Please enter a number</label>
+    <input type="number" id="option" name="option" min="1" max="4" />
+    <input type="submit" value="submit" />
+</form>
+

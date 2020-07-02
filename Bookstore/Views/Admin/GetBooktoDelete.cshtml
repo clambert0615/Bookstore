@@ -1,0 +1,9 @@
+﻿@using Bookstore.Models;
+@model Books
+
+<h1>What is the Book Id of the book that you would like to delete?</h1>
+<br />
+<form action="/Admin/DeleteBook" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
+    Book Id: <input type="number" id="id" name="id" />
+   <input type="submit" value="Delete" />
+</form>

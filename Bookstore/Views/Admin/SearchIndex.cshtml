@@ -1,0 +1,52 @@
+﻿@using Bookstore.Models;
+
+@model List<Books>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Publish Date
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @{
+            foreach (Books b in Model)
+            {
+                <tr>
+                    <td>@b.Title </td>
+                    <td>@b.Author</td>
+                    <td>@b.PublishDate</td>
+                    <td>@b.Pages</td>
+                    <td>@b.Genre</td>
+                    <td>@b.Price</td>
+                    <td><img src=@b.Image></td>
+                    <td>@b.Description</td>
+                </tr>
+            }
+        }
+
+
+    </tbody>
+</table>

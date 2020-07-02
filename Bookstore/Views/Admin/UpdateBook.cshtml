@@ -1,0 +1,27 @@
+﻿@using Bookstore.Models;
+
+@model Books
+
+
+<h1>Update Book</h1>
+<form action="/Admin/UpdateBook" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label for="Title">Please enter the Title</label><br />
+    <input type="text" name="Title" value="@Model.Title" /><br />
+    <label for="Author">Please enter the Author</label><br />
+    <input type="text" name="Author" value="@Model.Author" /><br />
+    <label for="PublishDate">Please enter the Publish Date</label><br />
+    <input type="date" name="PublishDate" value="@Model.PublishDate" /><br />
+    <label for="Pages">Please enter the number of pages</label><br />
+    <input type="number" name="Pages" value="@Model.Pages" /><br />
+    <label for="Genre">Please enter the Genre</label><br />
+    <input type="text" name="Genre" value="@Model.Genre" /><br />
+    <label for="Price">Please enter the Price</label><br />
+    <input type="number" name="Price" value="@Model.Price" step=".01" /><br />
+    <label for="Image">Please enter the Image URL</label><br />
+    <input type="text" name="Image" value="@Model.Image" maxlength="300" /><br />
+    <label for="Description">Please enter the Description</label><br />
+    <input type="text" name="Description" value="@Model.Description" maxlength="500" /><br />
+    <input type="submit" value="submit" />
+
+</form>

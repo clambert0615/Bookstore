@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Grandcircus\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj": {}
+    "C:\\Grandcircus\\Bookstore\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj": {}
   },
   "projects": {
-    "C:\\Grandcircus\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj": {
+    "C:\\Grandcircus\\Bookstore\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Grandcircus\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj",
+        "projectUniqueName": "C:\\Grandcircus\\Bookstore\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj",
         "projectName": "BookStoreAPI",
-        "projectPath": "C:\\Grandcircus\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj",
+        "projectPath": "C:\\Grandcircus\\Bookstore\\BookStoreAPI\\BookStoreAPI\\BookStoreAPI.csproj",
         "packagesPath": "C:\\Users\\cbele\\.nuget\\packages\\",
-        "outputPath": "C:\\Grandcircus\\BookStoreAPI\\BookStoreAPI\\obj\\",
+        "outputPath": "C:\\Grandcircus\\Bookstore\\BookStoreAPI\\BookStoreAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

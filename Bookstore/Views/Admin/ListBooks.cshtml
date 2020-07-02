@@ -1,0 +1,28 @@
+﻿@using Bookstore.Models;
+
+@model List<Books>
+<h1 style="text-align:center">Book Inventory </h1>
+<br>
+<br>
+
+<div class="flex">
+@{
+    foreach (Books b in Model)
+    {
+        <div class="flex-item">
+            <img src="@b.Image" style="width:40%"/>
+    
+            <h4>@b.Title</h4>
+            <h4>Book Id: @b.Id</h4>
+            <h5>Author: @b.Author</h5>
+            <p>Publication Date: @b.PublishDate.ToShortDateString()</p>
+            <p>Pages: @b.Pages</p>
+            <p>Genre: @b.Genre</p>
+            <p>Price: @b.Price</p>
+            <p>Description: @b.Description</p>
+        </div>
+    }
+}
+    </div>
+
+
