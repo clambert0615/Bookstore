@@ -1,0 +1,21 @@
+﻿@model Bookstore.Models.Books
+
+<img src=@Model.Image style="width:30%; height:30%">
+<h1>@Model.Title</h1>
+<h2>Book Id: @Model.Id</h2>
+<h2>Quantity in inventory: @Model.Quantity</h2>
+<h2>Author: @Model.Author</h2>
+<h5>Publish Date: @Model.PublishDate.ToShortDateString()</h5>
+<h5>Pages: @Model.Pages</h5>
+<h5>Genre: @Model.Genre</h5>
+<h5>Price: $@Model.Price</h5>
+<h5>Description: @Model.Description</h5>
+<br />
+<button onclick="goBack()">Back to Inventory List</button>
+<button onClick="location.href='/Admin/Index'">Return to Main Menu</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>

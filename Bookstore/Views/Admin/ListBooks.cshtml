@@ -4,6 +4,57 @@
 <h1 style="text-align:center">Book Inventory </h1>
 <br>
 <br>
+<table style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Book Id
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+           <th>
+               Quantity
+           </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @{
+            foreach (Books b in Model)
+            {
+                <tr>
+                    <td><a href="/Admin/IndividualBook?id=@b.Id">@b.Id</a></td>
+                    <td>@b.Title </td>
+                    <td>@b.Author</td>
+                    <td>@b.Quantity</td>
+                </tr>
+            }
+        }
+
+
+    </tbody>
+</table>
+<br />
+<button onClick="location.href='/Admin/Index'">Return to Main Menu</button>
+
+
+
+
+
+
+
+
+
+
+
+<!--<h1 style="text-align:center">Book Inventory </h1>
+<br>
+<br>
 
 <div class="flex">
 @{
@@ -11,7 +62,7 @@
     {
         <div class="flex-item">
             <img src="@b.Image" style="width:40%"/>
-    
+
             <h4>@b.Title</h4>
             <h4>Book Id: @b.Id</h4>
             <h5>Author: @b.Author</h5>
@@ -23,6 +74,4 @@
         </div>
     }
 }
-    </div>
-
-
+    </div>-->

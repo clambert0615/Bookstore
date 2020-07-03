@@ -75,7 +75,14 @@ namespace Bookstore.Controllers
         public async Task<IActionResult> UpdateBook(int id)
         {
             Books foundBook = await bd.GetBook(id);
-            return View(foundBook);
+            if (foundBook == null)
+            {
+               return RedirectToAction("ErrorPage");
+            }
+            else
+            {
+                return View(foundBook);
+            }
         }
         [HttpPost]
         [Authorize(Roles = "Adminstrator")]
@@ -101,8 +108,25 @@ namespace Bookstore.Controllers
         [Authorize(Roles = "Adminstrator")]
         public async Task<IActionResult> DeleteBook(int id)
         {
-            bd.DeleteBook(id);
-            return RedirectToAction("Index");
+            bool isSuccessful = await bd.DeleteBook(id);
+
+            if (isSuccessful)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("ErrorPage");
+            }
+        }
+        public async Task<IActionResult> IndividualBook(int id)
+        {
+            Books foundBook = await bd.GetBook(id);
+            return View(foundBook);
+        }
+        public IActionResult ErrorPage()
+        {
+            return View();
         }
     }
 }

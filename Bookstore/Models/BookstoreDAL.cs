@@ -32,16 +32,18 @@ namespace Bookstore.Models
             var bookResult = await response.Content.ReadAsAsync<Books>();
             return bookResult;
         }
-        public async void DeleteBook (int id)
+        public async Task<bool> DeleteBook (int id)
         {
             HttpClient client = GetHttpClient();
             var response = await client.DeleteAsync($"api/bookapi/{id}");
+            return response.IsSuccessStatusCode;
 
         }
         public async void UpdateBook (Books updatedBook)
         {
             HttpClient client = GetHttpClient();
             var response = await client.PutAsJsonAsync($"api/bookapi", updatedBook);
+          
 
         }
 
@@ -49,8 +51,15 @@ namespace Bookstore.Models
         {
             HttpClient client = GetHttpClient();
             var response = await client.GetAsync($"api/bookapi/{id}");
-            var book = await response.Content.ReadAsAsync<Books>();
-            return book;
+            if (response.IsSuccessStatusCode)
+            {
+                var book = await response.Content.ReadAsAsync<Books>();
+                return book;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
