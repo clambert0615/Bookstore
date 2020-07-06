@@ -37,7 +37,15 @@ namespace Bookstore
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>();
-               
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            }
+            );
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -64,6 +72,7 @@ namespace Bookstore
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

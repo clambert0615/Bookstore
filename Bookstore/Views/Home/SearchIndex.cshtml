@@ -1,0 +1,59 @@
+﻿@using Bookstore.Models;
+
+@model List<Books> 
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 500px; 
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+        </style>
+    </head>
+    <body>
+
+        <h1>Book List</h1>
+
+
+
+        @{
+            foreach (Books b in Model)
+            {
+                <div class="row">
+                    <div class="column">
+                        <img src=@b.Image style="width:400px; height:400px;" />
+                        </div>
+                    <div class="column">
+                        <h3>@b.Title </h3>
+                        <h5>Author: @b.Author</h5>
+                        <p>Publication Date: @b.PublishDate.ToShortDateString()</p>
+                        <p>Pages: @b.Pages</p>
+                        <p>Genre: @b.Genre</p>
+                        <p>Price: @b.Price</p>
+                        <p>Description: @b.Description</p>
+                        </div>
+                    </div> 
+                    }
+        }
+
+
+        </body>
+</html>
+      

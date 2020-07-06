@@ -1,0 +1,49 @@
+﻿@model Bookstore.Models.Books
+
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 500px;
+}
+</style>
+        </head>
+<body>
+    <div class="column">
+<img src=@Model.Image style="width:50%; height:50%">
+        </div>
+    <div class="column">
+<h1>@Model.Title</h1>
+<h2>Author: @Model.Author</h2>
+<p>Publish Date: @Model.PublishDate.ToShortDateString()</p>
+<p>Pages: @Model.Pages</p>
+<p>Genre: @Model.Genre</p>
+<p>Price: $@Model.Price</p>
+<p>Description: @Model.Description</p>
+        </div>
+    </body>
+<br />
+<form action="/Bookstore/AddToCart" method="post">
+    <input type="hidden" id="id" name="id" value="@Model.Id" />
+    Quantity: <input type="number" id="quantity" name="quantity" min="1" max="@Model.Quantity" />
+    <input type="submit" value="Add to cart" />
+</form>
+
+
+<button onclick="goBack()">Back to Book Index</button>
+
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>

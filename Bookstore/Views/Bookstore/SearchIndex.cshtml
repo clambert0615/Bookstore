@@ -2,33 +2,23 @@
 
 @model List<Books>
 
-<table>
+<h1 style="text-align:center">Books </h1>
+<br>
+<h3>Please browse our selection of books</h3>
+<br>
+<table style="width:100%">
     <thead>
         <tr>
+            <th>
+                Book
+            </th>
             <th>
                 Title
             </th>
             <th>
                 Author
             </th>
-            <th>
-                Publish Date
-            </th>
-            <th>
-                Pages
-            </th>
-            <th>
-                Genre
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Image
-            </th>
-            <th>
-                Description
-            </th>
+            
         </tr>
     </thead>
 
@@ -38,14 +28,11 @@
             foreach (Books b in Model)
             {
                 <tr>
-                    <td>@b.Title </td>
+                    <td>
+                    <img src=@b.Image style="width:100px; height:100px" /></td>
+                    <td><a href="/Bookstore/IndividualBook?id=@b.Id">@b.Title</a></td>
                     <td>@b.Author</td>
-                    <td>@b.PublishDate.ToShortDateString()</td>
-                    <td>@b.Pages</td>
-                    <td>@b.Genre</td>
-                    <td>@b.Price</td>
-                    <td><img src=@b.Image></td>
-                    <td>@b.Description</td>
+
                 </tr>
             }
         }

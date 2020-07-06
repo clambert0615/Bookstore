@@ -12,6 +12,7 @@ namespace Bookstore.Models
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
             Favorites = new HashSet<Favorites>();
+           // Cart = new HashSet<Cart>();
         }
 
         public string Id { get; set; }
@@ -35,5 +36,6 @@ namespace Bookstore.Models
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual ICollection<Favorites> Favorites { get; set; }
+       // public virtual ICollection<Cart> Cart { get; set; }
     }
 }
