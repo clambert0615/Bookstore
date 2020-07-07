@@ -68,8 +68,6 @@ C:\Grandcircus\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\runtimes\win\li
 C:\Grandcircus\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\Grandcircus\BookStoreAPI\BookStoreAPI\obj\Debug\netcoreapp3.1\BookStoreAPI.csproj.CoreCompileInputs.cache
 C:\Grandcircus\BookStoreAPI\BookStoreAPI\obj\Debug\netcoreapp3.1\BookStoreAPI.MvcApplicationPartsAssemblyInfo.cache
-C:\Grandcircus\Bookstore\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
-C:\Grandcircus\Bookstore\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Grandcircus\Bookstore\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Grandcircus\Bookstore\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\BookStoreAPI.exe
 C:\Grandcircus\Bookstore\BookStoreAPI\BookStoreAPI\bin\Debug\netcoreapp3.1\BookStoreAPI.deps.json

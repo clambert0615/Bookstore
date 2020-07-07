@@ -1,0 +1,41 @@
+﻿@using Bookstore.Models;
+@model List<Cart>
+
+<h1>Cart</h1>
+
+<table style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Quantity
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Cart c in Model)
+        {
+            <tr>
+                <td>@c.Book.Title</td>
+                <td>
+                    @c.Quantity
+                    <form action="/Bookstore/UpdateQuantity?@c.CartId" method="post">
+                      <input type="number" id="quantity" name="quantity" min="1" max="@c.Book.Quantity" />
+                        <input type="submit" value="Update quantity" />
+                        </form>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<form action="/Bookstore/SaveCart" method="post">
+    <input type="submit" value="Save Cart" />
+</form>
+
+<form action="/Bookstore/CheckoutOrder" method="post">
+    <input type="submit" value="Checkout" />
+</form>
+<button onClick="location.href='/Bookstore/SearchIndex'">Return to Book Search</button>

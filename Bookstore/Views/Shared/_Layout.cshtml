@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Text.Json
+@using Microsoft.AspNetCore.Http;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +14,15 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    @{
+        string cartJson = Context.Session.GetString("CartList");
+        List<Cart> cartList = null;
+
+        if (cartJson != null)
+        {
+            cartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
+        }
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -22,7 +37,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Bookstore" asp-action="SearchIndex">Home</a>
                         </li>
-                       
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bookstore" asp-action="GetSavedBooks">Saved Cart</a>
+                            </li>
+
+                        }
+                        @if (cartList != null && cartList.Count > 0)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bookstore" asp-action="Cart">Cart</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>
@@ -36,7 +64,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - CML Bookstore 
+            &copy; 2020 - CML Bookstore
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bookstore.Models
 {
-    public class Cart
+    public partial class Cart
     {
-        public Books Book { get; set; }
+        public int CartId { get; set; }
+        public int? BookId { get; set; }
+        public string UserId { get; set; }
         public int Quantity { get; set; }
-        //public virtual AspNetUsers User { get; set; }
-
+        public Books Book { get; set; }
+        
+           
+        public virtual AspNetUsers User { get; set; }
 
         public Cart(Books book, int quantity)
         {
@@ -22,5 +24,7 @@ namespace Bookstore.Models
         public Cart()
         {
         }
+
+
     }
 }

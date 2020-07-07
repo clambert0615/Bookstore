@@ -1,0 +1,35 @@
+﻿@using Bookstore.Models;
+@model Checkout
+
+<h1>Checkout</h1>
+<table style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Book
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+            Item Subtotal
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model.CheckoutItem)
+        {
+            <tr>
+                <td>@c.Book.Title</td>
+                <td>@c.Quantity</td>
+                <td>@c.Subtotal </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<br />
+<p>Subtotal: @Model.Subtotal</p>
+<p>Sales Tax: @Model.SalesTax</p>
+<p>Total: @Model.Total</p>
+
