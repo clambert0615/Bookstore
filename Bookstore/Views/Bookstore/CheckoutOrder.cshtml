@@ -1,6 +1,15 @@
 ﻿@using Bookstore.Models;
 @model Checkout
 
+    <style>
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 700px;
+        }
+    
+</style>
 <h1>Checkout</h1>
 <table style="width:100%">
     <thead>
@@ -17,19 +26,70 @@
         </tr>
     </thead>
     <tbody>
+
         @foreach (var c in Model.CheckoutItem)
         {
+            if (c.Quantity > 0)
+            {
             <tr>
                 <td>@c.Book.Title</td>
                 <td>@c.Quantity</td>
                 <td>@c.Subtotal </td>
             </tr>
+            }
         }
 
     </tbody>
 </table>
 <br />
-<p>Subtotal: @Model.Subtotal</p>
-<p>Sales Tax: @Model.SalesTax</p>
-<p>Total: @Model.Total</p>
+<div>
+Subtotal: @Model.Subtotal<br />
+Sales Tax: @Model.SalesTax<br />
+Total: @Model.Total
+    </div>
+<br />
 
+
+<form action="/Bookstore/Payment" method="post">
+    <h3>Payment Information:</h3>
+    <div class="column">
+  <label for="total">Payment:</label>
+    <input type="number" step="0.01" id="total" name="total" value="@Model.Total" readonly style="border-style:none;" /><br />
+    <p>Choose your card:</p>
+    <input type="radio" id="mastercard" name="cctype" value="mastercard" required/>
+    <label for="mastercard">MasterCard</label><br />
+    <input type="radio" id="visa" name="cctype" value="visa" required/>
+    <label for="visa">Visa</label><br />
+    <input type="radio" id="discover" name="cctype" value="discover" required/>
+    <label for="discover">Discover</label><br />
+  <label for="name">Name on Card:</label><br />
+    <input type="text" id="name" name="name" required/><br />
+    <label for="ccnum">Credit Card Number:</label><br />
+    <input type="text" id="ccnum" name="ccnum" minlength="15" maxlength="16" required/><br />
+    <label for="ccv">CCV Number:</label><br />
+    <input type="text" id="ccv" name="ccv" minlength="2" maxlength="3"required /><br />
+    <label for="month">Exp Month (MM): </label><br />
+     <input type="text" id="month" name="month" minlength="2" maxlength="2" required /><br />
+     <label for="year">Exp Year (YY):</label><br />
+     <input type="text" id="year" name="year" minlength="2" maxlength="2" required /><br/>
+     </div>
+    <div class="column">
+        <h3>Billing Information:</h3>
+        <label for="billname">Billing Name:</label><br />
+        <input type="text" id="billname" name="billname" required /><br />
+        <label for="address">Address:</label><br />
+        <input type="text" id="address" name="address" required/><br />
+        <label for="city">City:</label><br />
+        <input type="text" id="city" name="city" required/><br />
+        <label for="state">State:</label><br />
+        <input type="text" id="state" name="state" required /><br />
+        <label for="zip">Zip Code:</label><br />
+        <input type="text" id="zip" name="zip" minlength="5" maxlength="5" required /><br />
+        <label for="email">Email:</label><br />
+        <input type="text" id="email" name="email" required/><br />
+        <label>
+            <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+        </label><br />
+        <input type="submit" value="Submit" />
+    </div>
+</form>

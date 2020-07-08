@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Permissions;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -16,136 +17,153 @@ namespace Bookstore.Controllers
     {
         private readonly BookstoreContext _context;
         private readonly BookstoreDAL bd = new BookstoreDAL();
+
         public BookstoreController(BookstoreContext context)
         {
             _context = context;
-
         }
+
         public async Task<IActionResult> SearchIndex()
         {
 
             List<Books> bookList = await bd.GetBooks();
             return View(bookList);
         }
+
         public async Task<IActionResult> IndividualBook(int id)
         {
             Books foundBook = await bd.GetBook(id);
             return View(foundBook);
         }
 
+        [Authorize]
         public async Task<IActionResult> AddToCart(int id, int quantity)
         {
-            string cartJson = HttpContext.Session.GetString("CartList");
+           // string cartJson = HttpContext.Session.GetString("CartList");
             List<Cart> CartList = new List<Cart>();
 
-            if (cartJson == null)
-            {
-                CartList.Clear();
-            }
-            else
-            {
-                CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-            }
+           // if (cartJson == null)
+          //  {
+         //       CartList.Clear();
+         //   }
+         //   else
+         //   {
+         //       CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
+         //   }
 
             Books foundBook = await bd.GetBook(id);
 
             Cart cartbook = new Cart(foundBook, quantity);
             //Add found book to the cart list and return user to the list of books
-            if (CartList.Exists(x => x.Book.Title == foundBook.Title) == false)
+            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (_context.Cart.Where(x => (x.UserId == userid) && (x.BookId == foundBook.Id)).ToList().Count == 0)
             {
                 if (quantity <= foundBook.Quantity)
                 {
 
                     CartList.Add(cartbook);
+                     userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                    //resave the CartList with the new book in it
-                    string cartListJson = JsonSerializer.Serialize(CartList);
-                    HttpContext.Session.SetString("CartList", cartListJson);
+                    foreach (Cart ct in CartList)
+                    {
+                        Cart cart = new Cart
+                        {
+                            BookId = ct.Book.Id,
+                            Quantity = ct.Quantity,
+                            UserId = userid
+
+                        };
+
+                        _context.Cart.Add(cart);
+                        _context.SaveChanges();
+                    }
+
+
+
                     return RedirectToAction("Cart");
                 }
             }
 
-            return View("CartError");
+            return RedirectToAction("Cart");
         }
 
-        public IActionResult Cart()
+        public async Task<IActionResult> Cart()
         {
-            string cartJson = HttpContext.Session.GetString("CartList");
-            List<Cart> CartList = new List<Cart>();
-
-            if (cartJson != null)
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var thisUsersCart = await _context.Cart.Where(x => x.UserId == id).ToListAsync();
+            foreach (Cart c in thisUsersCart)
             {
-                CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
+                c.Book = await bd.GetBook(c.BookId.Value);
             }
 
-            if (CartList == null)
+            if (thisUsersCart == null)
             {
                 return View("SearchIndex");
             }
 
-            return RedirectToAction("SaveCart", CartList);
-        }
-        [Authorize]
-        public IActionResult SaveCart()
-        {
-            string cartJson = HttpContext.Session.GetString("CartList");
-            List<Cart> CartList = new List<Cart>();
-
-            if (cartJson != null)
-            {
-                CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-            }
-
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            foreach (Cart ct in CartList)
-            {
-                Cart cart = new Cart
-                {
-                    BookId = ct.Book.Id,
-                    Quantity = ct.Quantity,
-                    UserId = id
-
-                };
-
-                _context.Cart.Add(cart);
-                _context.SaveChanges();
-            }
-
-            return View(CartList);
-        }
-
-        [Authorize]
-        public async Task<IActionResult> GetSavedBooks()
-        {
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var thisUsersCart = await _context.Cart.Where(x => x.UserId == id).ToListAsync();
-            foreach(Cart c in thisUsersCart)
-            {
-                c.Book = await bd.GetBook(c.BookId.Value);
-            }
-            
             return View(thisUsersCart);
         }
+      //  [Authorize]
+       // public IActionResult SaveCart(List<Cart> CartList)
+       // {
+            //string cartJson = HttpContext.Session.GetString("CartList");
+            //List<Cart> CartList = new List<Cart>();
+
+          //  if (cartJson != null)
+         //   {
+                //CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
+           // }
+
+        //    string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+       //     foreach (Cart ct in CartList)
+       //     {
+       //         Cart cart = new Cart
+       //         {
+       //             BookId = ct.Book.Id,
+      //              Quantity = ct.Quantity,
+       //             UserId = id
+
+       //         };
+
+       //         _context.Cart.Add(cart);
+       //         _context.SaveChanges();
+       //     }
+
+        //    return View(CartList);
+       // }
+
+       // [Authorize]
+       // public async Task<IActionResult> GetSavedBooks()
+      //  {
+      //      string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+      //      var thisUsersCart = await _context.Cart.Where(x => x.UserId == id).ToListAsync();
+      //      foreach(Cart c in thisUsersCart)
+      //      {
+      //          c.Book = await bd.GetBook(c.BookId.Value);
+      //      }
+            
+       //     return View(thisUsersCart);
+       // }
 
         [Authorize]
         public IActionResult CheckoutOrder()
         {
-            string cartJson = HttpContext.Session.GetString("CartList");
+           // string cartJson = HttpContext.Session.GetString("CartList");
             List<Cart> CartList = new List<Cart>();
 
-            if (cartJson != null)
-            {
-                CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-            }
-            else if (cartJson == null)
-            {
+            //if (cartJson != null)
+            //{
+              //  CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
+            //}
+          // else if (cartJson == null)
+            //{
                 string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 CartList = _context.Cart.Where(x => x.UserId == id).ToList();
                 foreach (Cart c in CartList)
                 {
                     c.Book = bd.GetBook(c.BookId.Value).Result;
-                }
+            //    }
             }
 
             Checkout checkout = new Checkout();
@@ -161,9 +179,10 @@ namespace Bookstore.Controllers
             return View(checkout);
         }
 
+        [Authorize]
         public IActionResult UpdateQuantity(int cartId, int quantity)
         {
-            string cartJson = HttpContext.Session.GetString("CartList");
+           // string cartJson = HttpContext.Session.GetString("CartList");
             Cart item = _context.Cart.Find(cartId);
             if(item != null)
             {
@@ -172,17 +191,40 @@ namespace Bookstore.Controllers
                 _context.Update(item);
                 _context.SaveChanges();
             }
-            List<Cart> CartList = new List<Cart>();
-            if(cartJson != null)
-            {
-                CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-            }
-            Cart cartToUpdate = CartList.Single(x => x.CartId == cartId);
-            cartToUpdate.Quantity = quantity;
-            string cartListJson = JsonSerializer.Serialize(CartList);
-            HttpContext.Session.SetString("CartList", cartListJson);
+           // List<Cart> CartList = new List<Cart>();
+           // if(cartJson != null)
+           // {
+             //   CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
+            //}
+          //  Cart cartToUpdate = CartList.Single(x => x.CartId == cartId);
+            //cartToUpdate.Quantity = quantity;
+           // string cartListJson = JsonSerializer.Serialize(CartList);
+            //ttpContext.Session.SetString("CartList", cartListJson);
 
             return RedirectToAction("Cart", item);
         }
+        [Authorize]
+       public IActionResult Payment(Payment newPayment)
+        {
+            //if this is real, then I would have it go to a credit card processor
+            string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var list = _context.Cart.Where(x => x.UserId == userid).ToList();
+            foreach(var c in list)
+            {
+                Books book =bd.GetBook(c.BookId.Value).Result;
+                book.Quantity = book.Quantity - c.Quantity;
+                bd.UpdateBook(book);
+                _context.Cart.Remove(c);
+                _context.SaveChanges();
+            }
+
+
+                return RedirectToAction("Confirmation");
+        }
+       public IActionResult Confirmation()
+        {
+            return View();
+        }
+
     }
 }

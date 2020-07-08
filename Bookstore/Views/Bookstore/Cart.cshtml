@@ -15,25 +15,36 @@
         </tr>
     </thead>
     <tbody>
+        @if (Model != null)
+        {
         @foreach (Cart c in Model)
         {
+            if (c.Quantity > 0)
+            {
             <tr>
                 <td>@c.Book.Title</td>
                 <td>
                     @c.Quantity
-                    <form action="/Bookstore/UpdateQuantity?@c.CartId" method="post">
-                      <input type="number" id="quantity" name="quantity" min="1" max="@c.Book.Quantity" />
+                    <form action="/Bookstore/UpdateQuantity" method="post">
+                        <input type="hidden" id="cartId" name="cartId" value="@c.CartId" />
+                      <input type="number" id="quantity" name="quantity" min="0" max="@c.Book.Quantity" />
                         <input type="submit" value="Update quantity" />
                         </form>
                 </td>
             </tr>
+            }
 
         }
+            
+        }
+
     </tbody>
 </table>
-<form action="/Bookstore/SaveCart" method="post">
-    <input type="submit" value="Save Cart" />
-</form>
+@if(Model == null)
+{
+    <h3>Your cart is empty</h3>
+}
+
 
 <form action="/Bookstore/CheckoutOrder" method="post">
     <input type="submit" value="Checkout" />

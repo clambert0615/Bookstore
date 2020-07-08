@@ -32,11 +32,17 @@
         </div>
     </body>
 <br />
+@if (Model.Quantity > 0)
+{
 <form action="/Bookstore/AddToCart" method="post">
     <input type="hidden" id="id" name="id" value="@Model.Id" />
     Quantity: <input type="number" id="quantity" name="quantity" min="1" max="@Model.Quantity" />
     <input type="submit" value="Add to cart" />
-</form>
+</form>}
+else
+{
+    <h5>Out of Stock</h5>
+}
 
 
 <button onclick="goBack()">Back to Book Index</button>
