@@ -1,0 +1,8 @@
+﻿@using Bookstore.Models;
+@model IEnumerable<Book>
+
+<h1>New York Times Best Seller List</h1>
+@foreach(Book b in Model)
+{
+   <p>@b.title</p>
+}

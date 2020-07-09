@@ -1,8 +1,10 @@
-﻿using Bookstore.Models;
+﻿
+using Bookstore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,12 @@ namespace Bookstore.Controllers
     {
         private readonly BookstoreContext _context;
         private readonly BookstoreDAL bd = new BookstoreDAL();
+        private readonly NYTimesDAL ny;
 
-        public BookstoreController(BookstoreContext context)
+        public BookstoreController(BookstoreContext context, IConfiguration configuration)
         {
             _context = context;
+            ny = new NYTimesDAL(configuration);
         }
 
         public async Task<IActionResult> SearchIndex()
@@ -226,5 +230,10 @@ namespace Bookstore.Controllers
             return View();
         }
 
+        public IActionResult BestSellerList()
+        {
+            IEnumerable<Book> results = ny.getBestSeller().results.books.ToList();
+            return View(results);
+        }
     }
 }
