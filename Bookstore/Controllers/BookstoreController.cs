@@ -43,21 +43,13 @@ namespace Bookstore.Controllers
         [Authorize]
         public async Task<IActionResult> AddToCart(int id, int quantity)
         {
-           // string cartJson = HttpContext.Session.GetString("CartList");
             List<Cart> CartList = new List<Cart>();
 
-           // if (cartJson == null)
-          //  {
-         //       CartList.Clear();
-         //   }
-         //   else
-         //   {
-         //       CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-         //   }
 
             Books foundBook = await bd.GetBook(id);
 
             Cart cartbook = new Cart(foundBook, quantity);
+
             //Add found book to the cart list and return user to the list of books
             string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (_context.Cart.Where(x => (x.UserId == userid) && (x.BookId == foundBook.Id)).ToList().Count == 0)
@@ -66,7 +58,7 @@ namespace Bookstore.Controllers
                 {
 
                     CartList.Add(cartbook);
-                     userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                     foreach (Cart ct in CartList)
                     {
@@ -107,67 +99,21 @@ namespace Bookstore.Controllers
 
             return View(thisUsersCart);
         }
-      //  [Authorize]
-       // public IActionResult SaveCart(List<Cart> CartList)
-       // {
-            //string cartJson = HttpContext.Session.GetString("CartList");
-            //List<Cart> CartList = new List<Cart>();
 
-          //  if (cartJson != null)
-         //   {
-                //CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-           // }
-
-        //    string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-       //     foreach (Cart ct in CartList)
-       //     {
-       //         Cart cart = new Cart
-       //         {
-       //             BookId = ct.Book.Id,
-      //              Quantity = ct.Quantity,
-       //             UserId = id
-
-       //         };
-
-       //         _context.Cart.Add(cart);
-       //         _context.SaveChanges();
-       //     }
-
-        //    return View(CartList);
-       // }
-
-       // [Authorize]
-       // public async Task<IActionResult> GetSavedBooks()
-      //  {
-      //      string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-      //      var thisUsersCart = await _context.Cart.Where(x => x.UserId == id).ToListAsync();
-      //      foreach(Cart c in thisUsersCart)
-      //      {
-      //          c.Book = await bd.GetBook(c.BookId.Value);
-      //      }
-            
-       //     return View(thisUsersCart);
-       // }
 
         [Authorize]
         public IActionResult CheckoutOrder()
         {
-           // string cartJson = HttpContext.Session.GetString("CartList");
+
             List<Cart> CartList = new List<Cart>();
 
-            //if (cartJson != null)
-            //{
-              //  CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-            //}
-          // else if (cartJson == null)
-            //{
-                string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                CartList = _context.Cart.Where(x => x.UserId == id).ToList();
-                foreach (Cart c in CartList)
-                {
-                    c.Book = bd.GetBook(c.BookId.Value).Result;
-            //    }
+
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            CartList = _context.Cart.Where(x => x.UserId == id).ToList();
+            foreach (Cart c in CartList)
+            {
+                c.Book = bd.GetBook(c.BookId.Value).Result;
+
             }
 
             Checkout checkout = new Checkout();
@@ -186,36 +132,32 @@ namespace Bookstore.Controllers
         [Authorize]
         public IActionResult UpdateQuantity(int cartId, int quantity)
         {
-           // string cartJson = HttpContext.Session.GetString("CartList");
+            // string cartJson = HttpContext.Session.GetString("CartList");
             Cart item = _context.Cart.Find(cartId);
-            if(item != null)
+            if (quantity == 0)
+            {
+                _context.Cart.Remove(item);
+                _context.SaveChanges();
+            }
+            if (item != null && quantity >= 1)
             {
                 item.Quantity = quantity;
                 _context.Entry(item).State = EntityState.Modified;
                 _context.Update(item);
                 _context.SaveChanges();
             }
-           // List<Cart> CartList = new List<Cart>();
-           // if(cartJson != null)
-           // {
-             //   CartList = JsonSerializer.Deserialize<List<Cart>>(cartJson);
-            //}
-          //  Cart cartToUpdate = CartList.Single(x => x.CartId == cartId);
-            //cartToUpdate.Quantity = quantity;
-           // string cartListJson = JsonSerializer.Serialize(CartList);
-            //ttpContext.Session.SetString("CartList", cartListJson);
 
             return RedirectToAction("Cart", item);
         }
         [Authorize]
-       public IActionResult Payment(Payment newPayment)
+        public IActionResult Payment(Payment newPayment)
         {
             //if this is real, then I would have it go to a credit card processor
             string userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var list = _context.Cart.Where(x => x.UserId == userid).ToList();
-            foreach(var c in list)
+            foreach (var c in list)
             {
-                Books book =bd.GetBook(c.BookId.Value).Result;
+                Books book = bd.GetBook(c.BookId.Value).Result;
                 book.Quantity = book.Quantity - c.Quantity;
                 bd.UpdateBook(book);
                 _context.Cart.Remove(c);
@@ -223,9 +165,9 @@ namespace Bookstore.Controllers
             }
 
 
-                return RedirectToAction("Confirmation");
+            return RedirectToAction("Confirmation");
         }
-       public IActionResult Confirmation()
+        public IActionResult Confirmation()
         {
             return View();
         }

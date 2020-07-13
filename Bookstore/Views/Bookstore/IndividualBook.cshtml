@@ -15,20 +15,29 @@
   padding: 10px;
   height: 500px;
 }
+
+.button{
+    background-color: springgreen;
+    border-radius: 8px;
+}
+ input[type=submit] {
+            background-color: goldenrod;
+            border-radius: 8px
+        }
 </style>
         </head>
 <body>
     <div class="column">
-<img src=@Model.Image style="width:50%; height:50%">
+<img src=@Model.Image style="width:50%; height:70%">
         </div>
     <div class="column">
 <h1>@Model.Title</h1>
 <h2>Author: @Model.Author</h2>
-<p>Publish Date: @Model.PublishDate.ToShortDateString()</p>
-<p>Pages: @Model.Pages</p>
-<p>Genre: @Model.Genre</p>
-<p>Price: $@Model.Price</p>
-<p>Description: @Model.Description</p>
+<p><b>Publish Date:</b> @Model.PublishDate.ToShortDateString()</p>
+<p><b>Pages:</b> @Model.Pages</p>
+<p><b>Genre:</b> @Model.Genre</p>
+<p><b>Price:</b> $@Model.Price</p>
+<p><b>Description:</b> @Model.Description</p>
         </div>
     </body>
 <br />
@@ -44,8 +53,8 @@ else
     <h5>Out of Stock</h5>
 }
 
-
-<button onclick="goBack()">Back to Book Index</button>
+<br />
+<button class="button" onclick="goBack()">Back to Book Index</button>
 
 
 <script>

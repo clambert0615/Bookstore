@@ -1,6 +1,8 @@
 ﻿using System;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace Bookstore.Models
 {
@@ -9,10 +11,11 @@ namespace Bookstore.Models
         public BookstoreContext()
         {
         }
-
-        public BookstoreContext(DbContextOptions<BookstoreContext> options)
+        private readonly string Connection;
+        public BookstoreContext(DbContextOptions<BookstoreContext> options, IConfiguration configuration)
             : base(options)
         {
+            Connection = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
         }
 
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
@@ -30,7 +33,7 @@ namespace Bookstore.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=Bookstore;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(Connection);
             }
         }
 

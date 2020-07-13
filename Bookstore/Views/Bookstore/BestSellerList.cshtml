@@ -1,8 +1,31 @@
 ﻿@using Bookstore.Models;
 @model IEnumerable<Book>
+    <style>
+        .button {
+            background-color: springgreen;
+            border-radius: 8px;
+        }
+    </style>
 
-<h1>New York Times Best Seller List</h1>
-@foreach(Book b in Model)
-{
-   <p>@b.title</p>
-}
+<h1 style="text-align:center">New York Times Best Seller List</h1>
+<br />
+<ol>
+    @foreach (Book b in Model)
+    {
+        <li>
+            <dl>
+                <dt>@b.title</dt>
+                <dd><img src=@b.book_image style="width:100px; height:100px" /></dd>
+                <dd><b>Author:</b> @b.author</dd>
+                <dd><b>Weeks on NYTimes Bestseller List:</b> @b.weeks_on_list</dd>
+                <dd><b>Rank Last Week:</b> @b.rank_last_week</dd>
+                <dd><b>Description:</b> @b.description</dd>
+
+            </dl>
+        </li>
+
+    }
+
+</ol>
+<br />
+<button class="button" onClick="location.href='/Bookstore/SearchIndex'">Return to Book Search</button>

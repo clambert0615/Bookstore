@@ -1,8 +1,19 @@
 ﻿@using Bookstore.Models;
 @model List<Cart>
 
-<h1>Cart</h1>
-
+<h1 style="text-align:center">Cart</h1><br />
+<head>
+    <style>
+        .button {
+            background-color: springgreen;
+            border-radius: 8px;
+        }
+        input[type=submit] {
+            background-color: goldenrod;
+            border-radius: 8px
+        }
+    </style>
+</head>
 <table style="width:100%">
     <thead>
         <tr>
@@ -40,7 +51,7 @@
 
     </tbody>
 </table>
-@if(Model == null)
+@if(Model.Count <=0)
 {
     <h3>Your cart is empty</h3>
 }
@@ -49,4 +60,5 @@
 <form action="/Bookstore/CheckoutOrder" method="post">
     <input type="submit" value="Checkout" />
 </form>
-<button onClick="location.href='/Bookstore/SearchIndex'">Return to Book Search</button>
+<br />
+<button class="button" onClick="location.href='/Bookstore/SearchIndex'">Return to Book Search</button>
